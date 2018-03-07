@@ -1,5 +1,6 @@
 ﻿VERSION HISTORY
 
+
 Changes in v20 - 
 	* New version of who_is_active script due to bug 'Find Block Leaders infinite recursion bug'
 	* Fix in script '10-checkHSOBestPractices.sql'
