@@ -1,0 +1,18 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "CoreObjects", "CoreObjects\CoreObjects.ssmssqlproj", "{CDF0C7C3-88C5-45DC-9E4C-E0D06D2E6BF3}"
+EndProject
+Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "Scripts HSO", "Scripts HSO\Scripts HSO.ssmssqlproj", "{77AF7083-140A-4FB4-BCB4-B1920E78B412}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Default|Default = Default|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CDF0C7C3-88C5-45DC-9E4C-E0D06D2E6BF3}.Default|Default.ActiveCfg = Default
+		{77AF7083-140A-4FB4-BCB4-B1920E78B412}.Default|Default.ActiveCfg = Default
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

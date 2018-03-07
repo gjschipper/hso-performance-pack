@@ -1,0 +1,153 @@
+﻿VERSION HISTORY
+
+Changes in v20 - 
+	* New version of who_is_active script due to bug 'Find Block Leaders infinite recursion bug'
+	* Fix in script '10-checkHSOBestPractices.sql'
+	* Some comments made for the Performance Scan in several scripts.
+	
+
+Changes in v19 - Feb 9, 2018
+	* Fix in adding Maintenance Jobs
+	* Function 'fn_ParseQueryPlan' added to capture the original query, param list, query with sp_executesql, query without sp_executesql
+	* Script: 08-findSQLhistory.sql is modified. Columns added to see the output of function 'fn_ParseQueryPlan'. By default DB_NAME is now in output list and the create_time of the query.
+	* One script to create all brentozar scripts in one shot. 
+	* Latest version of BrentOzar scripts is used
+
+
+Changes in v18 - Jan 2, 2018
+	* Fixed script: '03-CreateMaintenanceJobs.sql' for creating SQL job: 'HSO - CleanUpAXTables'
+	* Fixed script: '03-CreateMaintenanceJobs.sql' for creating SQL job: 'HSO - Store-BatchHistory'
+	* Example added in script '99-several-checks.sql' how to get BATCHJOBHISTORY from dbatools database with STATUS
+	* Example added in script '99-several-checks.sql' how to drop temporary tables in tempdb due to bug in AX2012 R3.
+	* Example added in script '99-several-checks.sql' how to find ghost records in the database
+	* Fixed script: '03-CreateMaintenanceJobs.sql' for clean up PRINTJOBPAGES. @DAYS was not used.
+	* DBA scripts added to the hso pack.
+	
+
+Changes in v17 - Sep 29, 2017
+	* Extra cleanup step in SQL Job: 'HSO - Cleanup AX Tables' for table BISHISTORY
+	* Fixed: HSO version was not working anymore
+	
+
+Changes in v16 - Jul 25, 2017
+	* Create table BATCHJOBHISTORY in DBAtools to store batch history
+	* SQL job 'HSO - Store-BatchHistory added to script '03-CreateMaintenanceJobs.sql'
+	* Clean up PRINTJOBPAGES and PRINTJOBHEADER added to SQL Job 'HSO - CleanUpAXTables'
+	* SQL job 'HSO - CHECK QUERIES' added to script '03-CreateMaintenanceJobs.sql' to monitor bad queries.
+	  Store the result in table DBAtools.dbo.HSO_QUERY.
+
+	
+Changes in v15 - Jun 07, 2017
+	* Extra step in job '03-CreateMaintenanceJobs.sql' to cleanup AIF tables. This step is by default disabled.
+	* Script 09-TraceBlockingInformation.sql added to track the (b)locking issues
+	* Command added to 99-several-checks.sql to check the (b)locking information
+	* Fix in 12-checkWhoIsActive.sql
+	* Command added to 99-several-checks.sql to check the size per table
+	* Latest Brent Ozar firstresponder kit added, version Kit-20170603.
+
+	
+Changes in v14 - Nov 01, 2016
+	* Unused indexes worksheet is now ordered by Size (MB) in the FilterBlitzIndex Excel Template
+	* Add some checks for checking batchjobhistory table in script '99-several-checks.sql'
+	* Script added in '99-several-checks.sql' to Find tables that have Change Tracking enabled
+	* All blitz stored procedures are replaced with version of 14 October
+	* Latest ola.hallengren version is used
+	* Stored Procedure 'AskBrent' is now 'BlitzFirst'
+	* CHECK_HSO_PARAMETERS works now for more instances on one server.​
+
+
+Changes in v13 - Jun 14, 2016
+	* To migrate from v11 and v12 to this version run script '99-migrateFrom-v11-To-v13.sql'. Execute also script: '97-upgradeSteps.sql'
+	* Connection removed from the projects
+	* Note: Upgrade script works only while opening the solution from windows explorer. Else your current path is different.
+	* Script '12-several-checks.sql' added with several checks and queries.
+	* Script '08a-whoIsActive.sql' added, and creates a whoIsACtive StoredProcedure.
+	Query '12-checkWhoIsActive.sql' can check 'who is active', is there a blocking issue, 
+	what is the duration, what is the plan, are there waitstats and so on ... Much easier and you have more info than sp_who3.
+	* Script '08b-CreatePerfMonJobs.sql' creates a Perfmon Job 'HSO - Who Is Active'. 
+	The output is written for every 5 minutes in the table DBAtools.WhoIsActive_LOG.
+	You can query this table from SCOM and can show the headblockers with Query- and SQLplan above 5 minutes.
+	See for an example a qeury in '99-several-checks.sql'
+	* It creates also a cleanup job, to delete the records older than 30 days from this table.
+	* Job 'HSO - Export AOS Registry' is modified. It only delete the records from table AOS_REGISTRY for a specific AOS instance.
+	Now ACC, DEV and TEST environments can be stored in 1 table.
+	
+
+Changes in v12 - Jun 07, 2016
+	* In HSO Pack v12 we use v51 of sp_Blitz and v23 of sp_askBrent
+	* Script '05-BrentOzar.sql' is now splitted into 4 separate scripts, this is more easier to upgrade.
+	* From HSO Pack v12 you can upgrade from v11 to the latest version --> Run script '09-migrateFrom-v11-To-v12.sql'
+	
+	
+Changes in v11 - May 18, 2016
+	* Check if other traceflags, then (845,1117,1118,1224,2371,4199), are enabled (test 4.03)
+	* FIX: HSO_Pack version was in 2 characters
+	* Check count of indexes with fillfactor other then 70 or 90 (test 4.05)
+	* To support upgradability: job 'HSO - CleanUpAXTables' is modified with msdb.dbo.sp_update_jobstep (script: 03-CreateJobs.sql)
+	* FIX: script '11-checkHSOBestPractices.sql' renamed to '10-checkHSOBestPractices.sql'
+	
+	
+Changes in v10 - May 9, 2016
+	* FIX SQL2008: 'CONCAT' is not a recognized built-in function name.
+	* Clean up SYSDATABASELOG in a group of 1000 records
+	
+
+Changes in v9 - April 26, 2016
+	* Added stored procedure HSO_PACK_VERSION
+	* Sql2008 'HSO Pack Solution-SQL2008' version added
+	* Job HSO - Cleanup AX Tables @AXDB was not used as database parameter
+	* Traceflags are now checked as separate tests
+	* Check if @AXDB is modified in script 03-CreateJobs.sql
+	
+
+Changes in v8 - April 18, 2016
+	* HSO - Cleanup is now executed on saterday 01.00u
+	* Step 'cleanup SYSDATABASELOG' is commented (it's not running by default)
+	* Summary sheet is added to the FilterBlitzIndex Excel.
+
+
+Changes in v7 - April 06, 2016
+	* Added a stored procedure in script 04-CreateStoredProcedure.sql ([CHECK_HSO_PARAMETERS]).
+	* With this stored procedure we can check the Performance CheckList in an easier way
+	* Modified 11-checkHSOBestPractices.sql. Query to check is now a stored procedure.
+	* Added some statements to create only the missing jobs, extisting jobs remain unharmed.
+
+
+Changes in v6 - April 04, 2016
+	* Sql Job 'HSO - Export AOS Registry' added
+	* Script '11-checkHSOBestPractices.sql' modified.
+	* It's now possible to check also the AX AOS settings with this script
+	* Script '07.cleanupAll.sql' modified
+
+
+Changes in v5 - March 24, 2016
+	* Script '02-OlaHallengren.sql' modified.
+	* Create one disabled job 'HSO - Cleanup SQL Jobs' with three ola.hallengren cleanup steps
+	* Script '03-CreateJobs.sql' modified.
+	* Merge some jobs into one job with separate steps.
+	* All jobs are now disabled
+	* All jobs have a scheduled time
+	* Created a 'Cleanup AX Tables' job
+
+
+Changes in v4 - March 21, 2016
+	* Script '04-BrentOzar.sql' modified.
+	* Latest Brent Ozar firstresponder kit added, version Kit-20160312.
+	* Bugfix in 03-CreateJobs.sql
+
+
+Changes in v3 - March 8, 2016
+	* Script '11-checkHSOBestPractices.sql' added. 
+	* Check SQL Best Practices, you can add the output to document Performance Quick Scan Template.
+	* See: http://tinyurl.com/zfcle5o
+
+
+Changes in v2 - February 18, 2016
+	* Use the original ola.hallengran scripts without databasebackup. 
+	* Modified the IndexOptimize job with HSO settings.
+	* Script '05-isSQLinGoodShape.sql' modified. 
+	* Added table output in database DBAtools
+
+
+Changes in v1 - January 21, 2016
+	* Main version.
